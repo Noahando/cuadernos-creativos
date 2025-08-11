@@ -113,34 +113,40 @@
     }
 
     function mostrarCarrito() {
-        const tabla = document.querySelector("#tabla-carrito tbody");
-        tabla.innerHTML = "";
-        let total = 0;
+    const tabla = document.getElementById("tabla-carrito").getElementsByTagName("tbody")[0];
+    tabla.innerHTML = "";
 
-        carrito.forEach((item, index) => {
-            const subtotal = item.precio * item.cantidad;
-            total += subtotal;
-            tabla.innerHTML += `
-                <tr>
-                    <td>${item.nombre}</td>
-                    <td>${item.tamaño}</td>
-                    <td>$${item.precio.toFixed(2)}</td>
-                    <td>
-                        <div class="cantidad-control">
-                            <button onclick="cambiarCantidad(${index}, -1)">-</button>
-                            <input type="text" value="${item.cantidad}" readonly>
-                            <button onclick="cambiarCantidad(${index}, 1)">+</button>
-                        </div>
-                    </td>
-                    <td>$${subtotal.toFixed(2)}</td>
-                    <td><button class="boton" onclick="eliminarDelCarrito(${index})">Eliminar</button></td>
-                </tr>
-            `;
-        });
+    carrito.forEach((item, index) => {
+        const fila = tabla.insertRow();
 
-        document.getElementById("total").textContent = "Total: $" + total.toFixed(2);
+        fila.innerHTML = `
+            <td>${item.nombre} (${item.tamaño})</td>
+            <td>$${item.precio.toFixed(2)}</td>
+            <td>
+                <div class="cantidad-control">
+                    <button onclick="cambiarCantidad(${index}, -1)">-</button>
+                    <input type="number" value="${item.cantidad}" min="1" onchange="editarCantidad(${index}, this.value)">
+                    <button onclick="cambiarCantidad(${index}, 1)">+</button>
+                </div>
+            </td>
+            <td>$${(item.precio * item.cantidad).toFixed(2)}</td>
+            <td><button onclick="eliminarDelCarrito(${index})">Eliminar</button></td>
+        `;
+    });
+
+    // Aquí recalculas el total como ya tenías antes
+}
+
+
+    function editarCantidad(index, nuevaCantidad) {
+    nuevaCantidad = parseInt(nuevaCantidad);
+    if (isNaN(nuevaCantidad) || nuevaCantidad <= 0) {
+        carrito.splice(index, 1);
+    } else {
+        carrito[index].cantidad = nuevaCantidad;
     }
-
+    mostrarCarrito();
+}
     function cambiarCantidad(index, cambio) {
         carrito[index].cantidad += cambio;
         if (carrito[index].cantidad <= 0) {
@@ -188,3 +194,4 @@
 
 </body>
 </html>
+
