@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuadernos Creativos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f8f8f8;
+        }
+        header {
+            background: #ff6f61;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        nav {
+            background: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+        .productos {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+        .producto {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            width: 200px;
+            margin: 15px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .producto img {
+            width: 100%;
+            border-radius: 8px;
+        }
+        .boton {
+            background: #ff6f61;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .boton:hover {
+            background: #e65a50;
+        }
+        #carrito {
+            background: white;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Cuadernos Creativos</h1>
+    <p>¡Diseños únicos para tus ideas!</p>
+</header>
+
+<nav>
+    <a href="#productos">Productos</a>
+    <a href="#carrito">Carrito 🛒</a>
+    <a href="#contacto">Contacto</a>
+</nav>
+
+<section class="productos" id="productos">
+    <div class="producto">
+        <img src="https://via.placeholder.com/200x200" alt="Cuaderno 1">
+        <h3>Cuaderno Floral</h3>
+        <p>$5.00</p>
+        <button class="boton" onclick="agregarAlCarrito('Cuaderno Floral', 5)">Agregar</button>
+    </div>
+    <div class="producto">
+        <img src="https://via.placeholder.com/200x200" alt="Cuaderno 2">
+        <h3>Cuaderno Minimalista</h3>
+        <p>$4.50</p>
+        <button class="boton" onclick="agregarAlCarrito('Cuaderno Minimalista', 4.5)">Agregar</button>
+    </div>
+    <div class="producto">
+        <img src="https://via.placeholder.com/200x200" alt="Cuaderno 3">
+        <h3>Cuaderno Vintage</h3>
+        <p>$6.00</p>
+        <button class="boton" onclick="agregarAlCarrito('Cuaderno Vintage', 6)">Agregar</button>
+    </div>
+</section>
+
+<section id="carrito">
+    <h2>Carrito de Compras</h2>
+    <table id="tabla-carrito">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Total</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <h3 id="total">Total: $0.00</h3>
+    <button class="boton" style="background:green;" onclick="enviarWhatsApp()">Enviar por WhatsApp</button>
+</section>
+
+<footer id="contacto">
+    <p>📧 contacto@cuadernoscreativos.com | 📱 +34 600 000 000</p>
+    <p>© 2025 Cuadernos Creativos</p>
+</footer>
+
+<script>
+    let carrito = [];
+
+    function agregarAlCarrito(nombre, precio) {
+        const producto = carrito.find(item => item.nombre === nombre);
+        if (producto) {
+            producto.cantidad++;
+        } else {
+            carrito.push({ nombre, precio, cantidad: 1 });
+        }
+        mostrarCarrito();
+    }
+
+    function mostrarCarrito() {
+        const tabla = document.querySelector("#tabla-carrito tbody");
+        tabla.innerHTML = "";
+        let total = 0;
+
+        carrito.forEach((item, index) => {
+            const subtotal = item.precio * item.cantidad;
+            total += subtotal;
+            tabla.innerHTML += `
+                <tr>
+                    <td>${item.nombre}</td>
+                    <td>$${item.precio.toFixed(2)}</td>
+                    <td>${item.cantidad}</td>
+                    <td>$${subtotal.toFixed(2)}</td>
+                    <td><button class="boton" onclick="eliminarDelCarrito(${index})">Eliminar</button></td>
+                </tr>
+            `;
+        });
+
+        document.getElementById("total").textContent = "Total: $" + total.toFixed(2);
+    }
+
+    function eliminarDelCarrito(index) {
+        carrito.splice(index, 1);
+        mostrarCarrito();
+    }
+
+
+    function enviarWhatsApp() {
+        if (carrito.length === 0) {
+            alert("El carrito está vacío.");
+            return;
+        }
+
+        let mensaje = "Hola, quiero hacer el siguiente pedido:%0A";
+        let total = 0;
+
+        carrito.forEach(item => {
+            const subtotal = item.precio * item.cantidad;
+            total += subtotal;
+            mensaje += `${item.nombre} (x${item.cantidad}) - $${subtotal.toFixed(2)}%0A`;
+        });
+
+        mensaje += `Total: $${total.toFixed(2)}`;
+
+        // Número de WhatsApp en formato internacional (ejemplo: España +34, México +52)
+        const numero = "3133439344"; // <-- CAMBIA ESTE NÚMERO POR EL TUYO
+        const url = `https://wa.me/${numero}?text=${mensaje}`;
+        window.open(url, "_blank");
+    }
+</script>
+
+</body>
+</html>
+</html>3
