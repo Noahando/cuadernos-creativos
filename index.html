@@ -5,83 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cuadernos Creativos</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background: #f8f8f8;
-        }
-        header {
-            background: #ff6f61;
-            color: white;
-            text-align: center;
-            padding: 20px;
-        }
-        nav {
-            background: #333;
-            color: white;
-            padding: 10px;
-            text-align: center;
-        }
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin: 0 15px;
-        }
-        .productos {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            padding: 20px;
-        }
-        .producto {
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            width: 200px;
-            margin: 15px;
-            padding: 15px;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .producto img {
-            width: 100%;
-            border-radius: 8px;
-        }
-        .boton {
-            background: #ff6f61;
-            color: white;
-            padding: 10px;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-            margin-top: 10px;
-        }
-        .boton:hover {
-            background: #e65a50;
-        }
-        #carrito {
-            background: white;
-            padding: 20px;
-            margin: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        footer {
-            background: #333;
-            color: white;
-            text-align: center;
-            padding: 15px;
-            margin-top: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 8px;
-            border-bottom: 1px solid #ddd;
-            text-align: center;
-        }
+        body { font-family: Arial, sans-serif; margin: 0; background: #f8f8f8; }
+        header { background: #ff6f61; color: white; text-align: center; padding: 20px; }
+        nav { background: #333; color: white; padding: 10px; text-align: center; }
+        nav a { color: white; text-decoration: none; margin: 0 15px; }
+        .productos { display: flex; flex-wrap: wrap; justify-content: center; padding: 20px; }
+        .producto { background: white; border: 1px solid #ddd; border-radius: 8px; width: 200px; margin: 15px; padding: 15px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .producto img { width: 100%; border-radius: 8px; }
+        .boton { background: #ff6f61; color: white; padding: 10px; border: none; cursor: pointer; border-radius: 5px; margin-top: 10px; }
+        .boton:hover { background: #e65a50; }
+        #carrito { background: white; padding: 20px; margin: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        footer { background: #333; color: white; text-align: center; padding: 15px; margin-top: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 8px; border-bottom: 1px solid #ddd; text-align: center; }
+        .cantidad-control { display: flex; justify-content: center; align-items: center; }
+        .cantidad-control button { background: #ff6f61; border: none; color: white; padding: 5px 10px; margin: 0 5px; cursor: pointer; border-radius: 4px; }
+        .cantidad-control input { width: 40px; text-align: center; border: 1px solid #ddd; border-radius: 4px; }
     </style>
 </head>
 <body>
@@ -102,19 +41,36 @@
         <img src="https://via.placeholder.com/200x200" alt="Cuaderno 1">
         <h3>Cuaderno Floral</h3>
         <p>$5.00</p>
-        <button class="boton" onclick="agregarAlCarrito('Cuaderno Floral', 5)">Agregar</button>
+        <select id="tamaño1">
+            <option value="Pequeño">Pequeño</option>
+            <option value="Mediano">Mediano</option>
+            <option value="Grande">Grande</option>
+        </select>
+        <button class="boton" onclick="agregarAlCarrito('Cuaderno Floral', 5, document.getElementById('tamaño1').value)">Agregar</button>
     </div>
+
     <div class="producto">
         <img src="https://via.placeholder.com/200x200" alt="Cuaderno 2">
         <h3>Cuaderno Minimalista</h3>
         <p>$4.50</p>
-        <button class="boton" onclick="agregarAlCarrito('Cuaderno Minimalista', 4.5)">Agregar</button>
+        <select id="tamaño2">
+            <option value="Pequeño">Pequeño</option>
+            <option value="Mediano">Mediano</option>
+            <option value="Grande">Grande</option>
+        </select>
+        <button class="boton" onclick="agregarAlCarrito('Cuaderno Minimalista', 4.5, document.getElementById('tamaño2').value)">Agregar</button>
     </div>
+
     <div class="producto">
         <img src="https://via.placeholder.com/200x200" alt="Cuaderno 3">
         <h3>Cuaderno Vintage</h3>
         <p>$6.00</p>
-        <button class="boton" onclick="agregarAlCarrito('Cuaderno Vintage', 6)">Agregar</button>
+        <select id="tamaño3">
+            <option value="Pequeño">Pequeño</option>
+            <option value="Mediano">Mediano</option>
+            <option value="Grande">Grande</option>
+        </select>
+        <button class="boton" onclick="agregarAlCarrito('Cuaderno Vintage', 6, document.getElementById('tamaño3').value)">Agregar</button>
     </div>
 </section>
 
@@ -124,6 +80,7 @@
         <thead>
             <tr>
                 <th>Producto</th>
+                <th>Tamaño</th>
                 <th>Precio</th>
                 <th>Cantidad</th>
                 <th>Total</th>
@@ -133,23 +90,24 @@
         <tbody></tbody>
     </table>
     <h3 id="total">Total: $0.00</h3>
+    <button class="boton" onclick="finalizarCompra()">Finalizar Compra</button>
     <button class="boton" style="background:green;" onclick="enviarWhatsApp()">Enviar por WhatsApp</button>
 </section>
 
 <footer id="contacto">
-    <p>📧 contacto@cuadernoscreativos.com | 📱 +34 600 000 000</p>
+    <p>📧 contacto@cuadernoscreativos.com | 📱 +57 313 343 9344</p>
     <p>© 2025 Cuadernos Creativos</p>
 </footer>
 
 <script>
     let carrito = [];
 
-    function agregarAlCarrito(nombre, precio) {
-        const producto = carrito.find(item => item.nombre === nombre);
+    function agregarAlCarrito(nombre, precio, tamaño) {
+        const producto = carrito.find(item => item.nombre === nombre && item.tamaño === tamaño);
         if (producto) {
             producto.cantidad++;
         } else {
-            carrito.push({ nombre, precio, cantidad: 1 });
+            carrito.push({ nombre, precio, tamaño, cantidad: 1 });
         }
         mostrarCarrito();
     }
@@ -165,8 +123,15 @@
             tabla.innerHTML += `
                 <tr>
                     <td>${item.nombre}</td>
+                    <td>${item.tamaño}</td>
                     <td>$${item.precio.toFixed(2)}</td>
-                    <td>${item.cantidad}</td>
+                    <td>
+                        <div class="cantidad-control">
+                            <button onclick="cambiarCantidad(${index}, -1)">-</button>
+                            <input type="text" value="${item.cantidad}" readonly>
+                            <button onclick="cambiarCantidad(${index}, 1)">+</button>
+                        </div>
+                    </td>
                     <td>$${subtotal.toFixed(2)}</td>
                     <td><button class="boton" onclick="eliminarDelCarrito(${index})">Eliminar</button></td>
                 </tr>
@@ -176,11 +141,28 @@
         document.getElementById("total").textContent = "Total: $" + total.toFixed(2);
     }
 
+    function cambiarCantidad(index, cambio) {
+        carrito[index].cantidad += cambio;
+        if (carrito[index].cantidad <= 0) {
+            carrito.splice(index, 1);
+        }
+        mostrarCarrito();
+    }
+
     function eliminarDelCarrito(index) {
         carrito.splice(index, 1);
         mostrarCarrito();
     }
 
+    function finalizarCompra() {
+        if (carrito.length === 0) {
+            alert("El carrito está vacío.");
+            return;
+        }
+        alert("Gracias por tu compra. Te contactaremos para el envío.");
+        carrito = [];
+        mostrarCarrito();
+    }
 
     function enviarWhatsApp() {
         if (carrito.length === 0) {
@@ -194,13 +176,11 @@
         carrito.forEach(item => {
             const subtotal = item.precio * item.cantidad;
             total += subtotal;
-            mensaje += `${item.nombre} (x${item.cantidad}) - $${subtotal.toFixed(2)}%0A`;
+            mensaje += `${item.nombre} (${item.tamaño}) x${item.cantidad} - $${subtotal.toFixed(2)}%0A`;
         });
 
         mensaje += `Total: $${total.toFixed(2)}`;
-
-        // Número de WhatsApp en formato internacional (ejemplo: España +34, México +52)
-        const numero = "3133439344"; // <-- CAMBIA ESTE NÚMERO POR EL TUYO
+        const numero = "573133439344"; // Tu número en formato internacional
         const url = `https://wa.me/${numero}?text=${mensaje}`;
         window.open(url, "_blank");
     }
@@ -208,4 +188,3 @@
 
 </body>
 </html>
-</html>3
